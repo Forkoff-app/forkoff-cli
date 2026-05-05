@@ -56,10 +56,12 @@
   "license": "MIT",
   "dependencies": {
     "@noble/hashes": "^1.8.0",
+    "@supabase/supabase-js": "^2.105.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.6.0",
     "commander": "^14.0.2",
     "cross-spawn": "^7.0.6",
+    "dotenv": "^17.4.2",
     "inquirer": "^12.11.1",
     "keytar": "^7.9.0",
     "node-machine-id": "^1.1.12",
