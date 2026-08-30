@@ -1,7 +1,7 @@
 {
   "name": "forkoff",
   "version": "1.1.5",
-  "description": "CLI tool to connect Claude Code to the ForkOff mobile app for remote monitoring and approvals",
+  "description": "Monitor, approve, and control Claude Code sessions from your phone — real-time AI coding session monitoring, interactive tool approvals, and usage analytics, end-to-end encrypted.",
   "main": "dist/integration.js",
   "types": "dist/integration.d.ts",
   "homepage": "https://forkoff.app",
@@ -35,15 +35,29 @@
   },
   "keywords": [
     "cli",
-    "ai",
-    "coding",
-    "mobile",
     "claude",
     "claude-code",
-    "forkoff",
+    "claude-code-hooks",
+    "anthropic",
+    "ai",
+    "ai-agent",
+    "ai-coding",
+    "coding-assistant",
+    "coding",
+    "mobile",
+    "remote-monitoring",
     "remote-control",
+    "session-monitoring",
+    "approvals",
+    "notifications",
+    "analytics",
     "developer-tools",
-    "websocket"
+    "devtools",
+    "pair-programming",
+    "end-to-end-encryption",
+    "websocket",
+    "terminal",
+    "forkoff"
   ],
   "engines": {
     "node": ">=18.0.0"
