@@ -60,6 +60,26 @@ export async function getPrivateKey(deviceId: string): Promise<string | null> {
   }
 }
 
+export async function storeGatewayKey(key: string): Promise<void> {
+  await keytar.setPassword(SERVICE_NAME, 'remote-gateway-key', key);
+}
+
+export async function getGatewayKey(): Promise<string | null> {
+  try {
+    return await keytar.getPassword(SERVICE_NAME, 'remote-gateway-key');
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteGatewayKey(): Promise<void> {
+  try {
+    await keytar.deletePassword(SERVICE_NAME, 'remote-gateway-key');
+  } catch {
+    return;
+  }
+}
+
 /**
  * Deletes private key from OS keychain
  * @param deviceId - Device ID

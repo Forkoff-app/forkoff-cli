@@ -13,6 +13,7 @@ import { transcriptStreamer } from './transcript-streamer';
 import { setQuiet, setDebug, closeDebugLog, cleanupOldLogs, getLogFilePath, createSpinner } from './logger';
 import { UsageTracker } from './usage-tracker';
 import { enableStartup, disableStartup, isStartupRegistered, getBinaryPath } from './startup';
+import { remoteLogin, remoteLogout, remoteSignup, remoteStart, remoteStatus, remoteStop } from './remote/remote-commands';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
@@ -60,6 +61,10 @@ program
   .option('--reset', 'Reset all configuration')
   .action(async (options) => {
     if (options.reset) {
+      if (config.remoteActive) {
+        console.log(chalk.red('Remote Claude mode is active. Run "forkoff remote stop" first so Claude settings can be restored.'));
+        return;
+      }
       config.reset();
       console.log(chalk.green('Configuration reset successfully'));
       return;
@@ -289,7 +294,55 @@ program
 
     console.log(chalk.green('Device disconnected and unpaired.'));
     console.log(chalk.dim('Run "forkoff pair" to pair again.'));
+    if (config.remoteActive) {
+      console.log(chalk.dim('Remote Claude mode is still active. Run "forkoff remote stop" to restore default routing.'));
+    }
   });
+
+const remote = program
+  .command('remote')
+  .description('Route Claude Code through your self-hosted gateway');
+
+remote
+  .command('login')
+  .description('Log in to the gateway and store a device key')
+  .option('--url <url>', 'Gateway base URL, e.g. https://api.example.com')
+  .option('--username <username>', 'Gateway username')
+  .option('--password <password>', 'Gateway password (omit to be prompted)')
+  .action(remoteLogin);
+
+remote
+  .command('signup')
+  .description('Create a gateway account using an invite code')
+  .option('--url <url>', 'Gateway base URL')
+  .option('--username <username>', 'Desired username')
+  .option('--password <password>', 'Desired password (omit to be prompted)')
+  .option('--code <code>', 'Invite code')
+  .action(remoteSignup);
+
+remote
+  .command('start')
+  .description('Route new Claude Code sessions through the gateway')
+  .option('--url <url>', 'Gateway base URL')
+  .option('--username <username>', 'Log in first with this username')
+  .option('--password <password>', 'Log in first with this password')
+  .option('--minimal', 'Also disable non-essential Claude Code traffic')
+  .action(remoteStart);
+
+remote
+  .command('stop')
+  .description('Restore default Claude Code routing')
+  .action(remoteStop);
+
+remote
+  .command('status')
+  .description('Show remote mode state and gateway health')
+  .action(remoteStatus);
+
+remote
+  .command('logout')
+  .description('Stop remote mode and delete the stored gateway key')
+  .action(remoteLogout);
 
 // Manage startup registration
 program
