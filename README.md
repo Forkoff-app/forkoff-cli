@@ -78,6 +78,7 @@ Keep this running to stream sessions to your phone in real-time.
 | `forkoff startup` | Manage automatic startup on login |
 | `forkoff tools` | Detect AI tools, install/uninstall hooks |
 | `forkoff logs` | List, view, or clean debug logs |
+| `forkoff remote` | Route Claude Code through your self-hosted gateway |
 
 ### Configuration
 
@@ -104,6 +105,25 @@ forkoff logs                     # List debug log files
 forkoff logs --latest            # Print path to most recent log
 forkoff logs --clean             # Delete all log files
 ```
+
+### Remote Claude Account Mode
+
+Use a Claude account that lives on your own server. `forkoff remote` reroutes Claude Code's API traffic through a self-hosted gateway that injects the account's credentials — the full local terminal experience (slash commands, skills, hooks, MCP, subagents) stays intact.
+
+```bash
+forkoff remote signup --url https://your-domain.com --code <invite-code>
+forkoff remote login  --url https://your-domain.com
+forkoff remote start             # new claude sessions route through the gateway
+forkoff remote status            # state + live gateway health
+forkoff remote stop              # restore default routing exactly
+forkoff remote logout            # stop + delete the stored gateway key
+```
+
+`start` injects `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN` into `~/.claude/settings.json` (atomic write, one-time backup, prior values snapshotted); `stop` restores them exactly. Restart running claude sessions to pick up either change. Credentials: the laptop only ever holds a revocable gateway key — the Claude account token never leaves your server.
+
+Server setup uses the gateway built into [forkoff-backend](https://github.com/Forkoff-app/forkoff-backend): store a `claude setup-token` per account, gate users with username/password + invite codes.
+
+Not available while remote mode is on (they need a claude.ai login): Remote Control, voice dictation, `/schedule`, `/code-review ultra`, claude.ai connectors, `/fast`, `/usage`.
 
 ### Global Options
 
