@@ -6,6 +6,8 @@ Each release is tagged `v<version>` in git and published to npm.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-09-10
+
 ### Added
 - `forkoff remote` command group — route Claude Code through a self-hosted gateway so a laptop can use a Claude account stored on your own server, with the full local terminal experience:
   - `remote login [--url] [--username] [--password]` — authenticate against the gateway, store a revocable device key in the OS keychain
