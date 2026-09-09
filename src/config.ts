@@ -60,6 +60,12 @@ interface DeviceConfig {
   relayMode: 'cloud' | 'local';
   relayToken: string | null;
   pairId: string | null;
+  remoteGatewayUrl: string | null;
+  remoteActive: boolean;
+  remoteUsername: string | null;
+  remoteAccountName: string | null;
+  remoteStartedAt: string | null;
+  remoteSavedEnv: Record<string, string | null> | null;
 }
 
 const defaultConfig: DeviceConfig = {
@@ -76,6 +82,12 @@ const defaultConfig: DeviceConfig = {
   relayMode: 'cloud',
   relayToken: null,
   pairId: null,
+  remoteGatewayUrl: null,
+  remoteActive: false,
+  remoteUsername: null,
+  remoteAccountName: null,
+  remoteStartedAt: null,
+  remoteSavedEnv: null,
 };
 
 class Config {
@@ -263,6 +275,60 @@ class Config {
 
   get isPaired(): boolean {
     return !!this.deviceId && !!this.pairedAt;
+  }
+
+  get remoteGatewayUrl(): string | null {
+    return this.data.remoteGatewayUrl;
+  }
+
+  set remoteGatewayUrl(value: string | null) {
+    this.data.remoteGatewayUrl = value ? enforceSecureUrl(value, 'api') : null;
+    this.save();
+  }
+
+  get remoteActive(): boolean {
+    return this.data.remoteActive;
+  }
+
+  set remoteActive(value: boolean) {
+    this.data.remoteActive = value;
+    this.save();
+  }
+
+  get remoteUsername(): string | null {
+    return this.data.remoteUsername;
+  }
+
+  set remoteUsername(value: string | null) {
+    this.data.remoteUsername = value;
+    this.save();
+  }
+
+  get remoteAccountName(): string | null {
+    return this.data.remoteAccountName;
+  }
+
+  set remoteAccountName(value: string | null) {
+    this.data.remoteAccountName = value;
+    this.save();
+  }
+
+  get remoteStartedAt(): string | null {
+    return this.data.remoteStartedAt;
+  }
+
+  set remoteStartedAt(value: string | null) {
+    this.data.remoteStartedAt = value;
+    this.save();
+  }
+
+  get remoteSavedEnv(): Record<string, string | null> | null {
+    return this.data.remoteSavedEnv;
+  }
+
+  set remoteSavedEnv(value: Record<string, string | null> | null) {
+    this.data.remoteSavedEnv = value;
+    this.save();
   }
 
   // Ensure deviceId exists, generating one if needed
