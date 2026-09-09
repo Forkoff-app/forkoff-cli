@@ -1,6 +1,6 @@
 {
   "name": "forkoff",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "description": "Monitor, approve, and control Claude Code sessions from your phone — real-time AI coding session monitoring, interactive tool approvals, and usage analytics, end-to-end encrypted.",
   "main": "dist/integration.js",
   "types": "dist/integration.d.ts",
